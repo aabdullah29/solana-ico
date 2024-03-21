@@ -262,6 +262,7 @@ pub mod ico {
         #[account(mut)]
         pub user: Signer<'info>,
 
+        /// CHECK:
         #[account(mut)]
         pub admin: AccountInfo<'info>,
 
