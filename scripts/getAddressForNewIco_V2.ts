@@ -18,24 +18,14 @@ import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pub
     [Buffer.from("program_ata"), icoMintAddress.toBuffer()],
     icoProgramAddress
   );
-  console.log(
-    "Program ATA PDA: ",
-    programAtaPDA.toString(),
-    "Bump: ",
-    programAtaPDABump
-  );
+  console.log("Program ATA PDA: ", programAtaPDA.toString(), "Bump: ", programAtaPDABump);
 
   // Derive ICO PDA (for storing ICO data)
   const [icoDataPDA, icoDataPDABump] = findProgramAddressSync(
     [Buffer.from("ico_pda")],
     icoProgramAddress
   );
-  console.log(
-    "ICO Data PDA: ",
-    icoDataPDA.toString(),
-    "Bump: ",
-    icoDataPDABump
-  );
+  console.log("ICO Data PDA: ", icoDataPDA.toString(), "Bump: ", icoDataPDABump);
 
   // Network and Wallet setup
   const network = getNetworkConfig(networkName);
@@ -66,7 +56,6 @@ import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pub
   // Further program interaction logic (e.g., initiate ICO, buy tokens, etc.) can be added here.
 })();
 
-
 /*
   initiateAndCreateProgramATA= (10000, 10000000000)
   admin= C5jtiLaDBDoRL1dkag8gVEQ7xR9GtJ36wdL57xyfHzkF
@@ -75,7 +64,6 @@ import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pub
   programAta= 64zW4k7SCfM7BKZDyvdtd71Bd5vfiL5mxPqo2pabJUNt
   icoPda= 3mg3onodFTyLLPkwp7VR2CfN9ZPnhx4NKKt9QANSMSZB
 */
-
 
 /*
 buyWithSol= (4000000, 254)
