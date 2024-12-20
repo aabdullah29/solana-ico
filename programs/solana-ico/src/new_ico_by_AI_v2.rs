@@ -85,7 +85,11 @@ mod ico_program {
 
         // Get the seeds and bump for the Program ATA signer
         let ico_mint_pubkey = ICO_MINT.parse::<Pubkey>().unwrap();
-        let seeds = &[PROGRAM_ATA_SEED, ico_mint_pubkey.as_ref(), &[ico_pda.ata_bump]];
+        let seeds = &[
+            PROGRAM_ATA_SEED,
+            ico_mint_pubkey.as_ref(),
+            &[ico_pda.ata_bump],
+        ];
         let signer = [&seeds[..]];
         // Transfer tokens to the buyer's associated token account
         let cpi_context = CpiContext::new_with_signer(
@@ -135,7 +139,11 @@ mod ico_program {
 
         // Get the seeds and bump for the Program ATA signer
         let ico_mint_pubkey = ICO_MINT.parse::<Pubkey>().unwrap();
-        let seeds = &[PROGRAM_ATA_SEED,ico_mint_pubkey.as_ref(), &[ico_pda.ata_bump]];
+        let seeds = &[
+            PROGRAM_ATA_SEED,
+            ico_mint_pubkey.as_ref(),
+            &[ico_pda.ata_bump],
+        ];
         let signer = [&seeds[..]];
         // Transfer tokens to the admin's associated token account
         let cpi_context = CpiContext::new_with_signer(
@@ -211,9 +219,7 @@ pub struct InitiateAndCreateProgramATA<'info> {
     #[account(mut)]
     pub admin: Signer<'info>,
 
-    #[account(
-        address = ICO_MINT.parse::<Pubkey>().unwrap(),
-        )]
+    #[account(address = ICO_MINT.parse::<Pubkey>().unwrap())]
     pub ico_mint: Account<'info, Mint>,
 
     #[account(mut)]
@@ -337,5 +343,4 @@ pub struct IcoDataPda {
 pub enum IcoCustomError {
     #[msg("Mathematical overflow during operations.")]
     MathOverflow,
-
 }
