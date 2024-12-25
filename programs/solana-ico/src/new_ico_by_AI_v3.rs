@@ -6,7 +6,7 @@ const ICO_MINT: &str = "AvEt25pkz91AaJM1K2bGcCGvm1AzfELFkQgKQEFUQc7n";
 const PROGRAM_ATA_SEED: &[u8] = b"program_ata";
 const ICO_PDA_SEED: &[u8] = b"ico_pda";
 
-declare_id!("2wgDQ7J1xVqWEu3iLB2RMnrxnixWLWXES6VDjRhY3HNM");
+declare_id!("4bLbF6LwTuiPY5V63A7v4N8Uabcawt2HpjfobrjknLhm");
 
 #[program]
 mod ico_program {
@@ -37,7 +37,9 @@ mod ico_program {
         let ico_pda = &mut ctx.accounts.ico_pda;
         ico_pda.admin = ctx.accounts.admin.key();
         ico_pda.tokens_per_lamport = tokens_per_lamport;
+        ico_pda.lamports_per_token = 0; // initilly it will be 0
         ico_pda.tokens_balance = tokens_deposit_for_ico;
+        ico_pda.decimals = ctx.accounts.ico_mint.decimals;
         ico_pda.ata_bump = ctx.bumps.program_ata;
 
         msg!(
@@ -50,23 +52,19 @@ mod ico_program {
 
     // Allows anyone to buy tokens with SOL and send SOL as lamports to the admin's account
     pub fn buy_with_sol(ctx: Context<BuyWithSol>, lamports: u64) -> Result<()> {
-        if lamports == 0 {
+        // Calculate total cost and check for overflow
+        let ico_pda = &mut ctx.accounts.ico_pda;
+        if lamports == 0 && ico_pda.tokens_per_lamport > 0 {
             return Err(ProgramError::InvalidArgument.into());
         }
 
-        // Check if buyer has enough lamports to cover the purchase
-        if **ctx.accounts.buyer.try_borrow_mut_lamports()? < lamports {
-            return Err(ProgramError::InsufficientFunds.into());
-        }
-
-        // Calculate total cost and check for overflow
-        let ico_pda = &mut ctx.accounts.ico_pda;
         let tokens_amount = lamports
             .checked_mul(ico_pda.tokens_per_lamport)
             .ok_or(IcoCustomError::MathOverflow)?;
-
-        // Check if enough tokens are available for purchase
-        if ico_pda.tokens_balance < tokens_amount {
+        // Check if buyer has enough lamports and enough tokens are available for purchase
+        if **ctx.accounts.buyer.try_borrow_mut_lamports()? < lamports
+            || ico_pda.tokens_balance < tokens_amount
+        {
             return Err(ProgramError::InsufficientFunds.into());
         }
 
@@ -334,9 +332,11 @@ pub struct UpdatePrice<'info> {
 pub struct IcoDataPda {
     pub admin: Pubkey,
     pub tokens_per_lamport: u64,
+    pub lamports_per_token: u64, // if token price increas morethen 1 lamports
     pub tokens_balance: u64,
     pub total_sold: u64,
     pub lamports_received: u64,
+    pub decimals: u8,
     pub ata_bump: u8,
 }
 

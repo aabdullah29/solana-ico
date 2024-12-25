@@ -1,0 +1,92 @@
+{
+  "version": "0.1.0",
+  "name": "ico_program",
+  "instructions": [
+    {
+      "name": "initiateAndCreateProgramAta",
+      "accounts": [
+        { "name": "admin", "isMut": true, "isSigner": true },
+        { "name": "icoMint", "isMut": false, "isSigner": false },
+        { "name": "adminAta", "isMut": true, "isSigner": false },
+        { "name": "programAta", "isMut": true, "isSigner": false },
+        { "name": "icoPda", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false },
+        { "name": "rent", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "tokensPerLamport", "type": "u64" },
+        { "name": "tokensDepositForIco", "type": "u64" }
+      ]
+    },
+    {
+      "name": "buyWithSol",
+      "accounts": [
+        { "name": "buyer", "isMut": true, "isSigner": true },
+        { "name": "admin", "isMut": true, "isSigner": false },
+        { "name": "buyerAta", "isMut": true, "isSigner": false },
+        { "name": "programAta", "isMut": true, "isSigner": false },
+        { "name": "icoPda", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [{ "name": "lamports", "type": "u64" }]
+    },
+    {
+      "name": "withdrawTokens",
+      "accounts": [
+        { "name": "admin", "isMut": true, "isSigner": true },
+        { "name": "adminAta", "isMut": true, "isSigner": false },
+        { "name": "programAta", "isMut": true, "isSigner": false },
+        { "name": "icoPda", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [{ "name": "amount", "type": "u64" }]
+    },
+    {
+      "name": "depositTokens",
+      "accounts": [
+        { "name": "admin", "isMut": false, "isSigner": true },
+        { "name": "adminAta", "isMut": true, "isSigner": false },
+        { "name": "programAta", "isMut": true, "isSigner": false },
+        { "name": "icoPda", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [{ "name": "amount", "type": "u64" }]
+    },
+    {
+      "name": "updatePrice",
+      "accounts": [
+        { "name": "admin", "isMut": true, "isSigner": true },
+        { "name": "icoPda", "isMut": true, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [{ "name": "tokensPerLamport", "type": "u64" }]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "IcoDataPda",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "admin", "type": "publicKey" },
+          { "name": "tokensPerLamport", "type": "u64" },
+          { "name": "tokensBalance", "type": "u64" },
+          { "name": "totalSold", "type": "u64" },
+          { "name": "lamportsReceived", "type": "u64" },
+          { "name": "ataBump", "type": "u8" }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "MathOverflow",
+      "msg": "Mathematical overflow during operations."
+    }
+  ]
+}

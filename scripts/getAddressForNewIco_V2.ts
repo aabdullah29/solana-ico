@@ -9,8 +9,8 @@ import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pub
 (async () => {
   // Constants
   const icoMintAddress = toPublicKey("AvEt25pkz91AaJM1K2bGcCGvm1AzfELFkQgKQEFUQc7n"); // ICO Mint
-  const icoProgramAddress = toPublicKey("FGyoWBVesESYEJidurSeEBSgqG75No238xHaeJ8ZnH6Z");
-  const userPubkey = toPublicKey("2vLR1s4cmXkYLutA8Xex7Mj1KmuxHw2ahL6GPXrJyEZN");
+  const icoProgramAddress = toPublicKey("4bLbF6LwTuiPY5V63A7v4N8Uabcawt2HpjfobrjknLhm");
+  const userPubkey = toPublicKey("4frHjwEv6beXeGz4a35y4n5syThPnSetUQL17b2ZSMGK");
   const adminPubkey = toPublicKey("C5jtiLaDBDoRL1dkag8gVEQ7xR9GtJ36wdL57xyfHzkF");
 
   // Derive Program ATA (PDA) for ICO Mint
@@ -52,8 +52,6 @@ import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pub
     userPubkey
   );
   console.log("User ATA: ", icoAtaForUser.address.toString());
-
-  // Further program interaction logic (e.g., initiate ICO, buy tokens, etc.) can be added here.
 })();
 
 /*
